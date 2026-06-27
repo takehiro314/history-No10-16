@@ -122,6 +122,9 @@
       flex: 1;
       padding: 16px 14px 84px;
     }
+    body[data-screen="home"] main {
+      padding-bottom: 176px;
+    }
     .screen { display: none; }
     .screen.active { display: block; }
     .section {
@@ -147,12 +150,26 @@
       text-align: left;
       box-shadow: var(--shadow);
     }
+    .mode-card:hover {
+      border-color: rgba(23, 107, 135, .55);
+    }
     .mode-card strong {
       font-size: 18px;
     }
     .mode-card small {
       color: var(--muted);
       line-height: 1.45;
+    }
+    .mode-card span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      background: #eef4ee;
+      color: #2f604d;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 800;
     }
     .setup-panel, .quiz-panel, .result-panel, .empty-panel {
       background: var(--panel);
@@ -178,6 +195,18 @@
       padding: 8px 10px;
       background: white;
       color: var(--ink);
+    }
+    .quick-counts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: -4px;
+      margin-bottom: 14px;
+    }
+    .quick-counts button {
+      min-height: 38px;
+      font-size: 13px;
+      font-weight: 800;
     }
     .actions {
       display: grid;
@@ -336,9 +365,38 @@
       box-shadow: var(--shadow);
       padding: 12px;
     }
+    .stat-card.featured {
+      border-color: rgba(23, 107, 135, .45);
+      background: #f9fffd;
+    }
     .stat-card h3 {
       margin: 0 0 10px;
       font-size: 15px;
+    }
+    .stat-kpis {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .stat-kpi {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 8px;
+      min-width: 0;
+    }
+    .stat-kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.2;
+    }
+    .stat-kpi strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 18px;
+      line-height: 1.1;
     }
     .meter {
       margin: 8px 0 12px;
@@ -377,6 +435,19 @@
       padding: 12px;
       font-weight: 800;
       cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    summary::after {
+      content: "開く";
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    details[open] summary::after {
+      content: "閉じる";
     }
     .mistakes {
       max-height: 420px;
@@ -407,12 +478,82 @@
       display: grid;
       gap: 8px;
     }
+    body[data-screen="home"] .float-nav {
+      bottom: 126px;
+    }
+    body[data-screen="quiz"] .float-nav {
+      display: none;
+    }
     .float-nav button {
       width: 46px;
       min-height: 46px;
       border-radius: 999px;
       box-shadow: var(--shadow);
       font-weight: 900;
+    }
+    .result-dock {
+      display: none;
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 25;
+      width: min(980px, 100%);
+      transform: translateX(-50%);
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255, 253, 248, .96);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -8px 22px rgba(42, 31, 18, .10);
+      backdrop-filter: blur(12px);
+    }
+    body[data-screen="home"] .result-dock {
+      display: block;
+    }
+    .result-dock-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .dock-card {
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 8px;
+      text-align: left;
+    }
+    .dock-card strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .dock-bars {
+      display: grid;
+      gap: 5px;
+    }
+    .dock-row {
+      display: grid;
+      grid-template-columns: 30px 1fr 34px;
+      gap: 5px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+    }
+    .dock-bar {
+      height: 7px;
+      border-radius: 999px;
+      background: #ede4d7;
+      overflow: hidden;
+    }
+    .dock-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+    }
+    .dock-row.accuracy .dock-bar span {
+      background: var(--good);
     }
     .toast {
       position: fixed;
@@ -435,8 +576,11 @@
       .mode-grid, .stats-grid {
         grid-template-columns: 1fr;
       }
+      body[data-screen="home"] main {
+        padding-bottom: 254px;
+      }
       .mode-card {
-        min-height: 112px;
+        min-height: 106px;
       }
       main {
         padding-inline: 10px;
@@ -456,10 +600,19 @@
       .sort-title {
         font-size: 14px;
       }
+      body[data-screen="home"] .float-nav {
+        bottom: 208px;
+      }
+      .result-dock-grid {
+        grid-template-columns: 1fr;
+      }
+      .dock-card {
+        min-height: 62px;
+      }
     }
   </style>
 </head>
-<body>
+<body data-screen="home">
   <div class="app" id="top">
     <header class="topbar">
       <div class="topbar-inner">
@@ -506,6 +659,11 @@
             <label for="countInput">問題数</label>
             <input id="countInput" type="number" min="1" max="50" value="10">
           </div>
+          <div class="quick-counts" aria-label="問題数のショートカット">
+            <button data-count-shortcut="5">5問</button>
+            <button data-count-shortcut="10">10問</button>
+            <button data-count-shortcut="20">20問</button>
+          </div>
           <div class="field">
             <label for="poolSelect">出す問題</label>
             <select id="poolSelect">
@@ -542,6 +700,9 @@
     <button id="toTopButton" title="一番上へ">↑</button>
     <button id="toBottomButton" title="一番下へ">↓</button>
   </div>
+  <aside class="result-dock" aria-label="リザルトのミニグラフ">
+    <div class="result-dock-grid" id="resultDock"></div>
+  </aside>
   <div class="toast" id="toast"></div>
 
   <script>
@@ -611,9 +772,11 @@
     function showScreen(name) {
       Object.values(screens).forEach((screen) => screen.classList.remove("active"));
       screens[name].classList.add("active");
+      document.body.dataset.screen = name;
       tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === (name === "results" ? "results" : "home")));
       byId("statusLine").textContent = name === "results" ? "リザルト" : currentMode ? MODE_META[currentMode].label : "ホーム";
       if (name === "results") renderResults();
+      if (name === "home") renderResultDock();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -860,6 +1023,7 @@
 
     function renderResults() {
       renderStats();
+      renderResultDock();
       renderMistakes();
     }
 
@@ -886,15 +1050,34 @@
     function renderStats() {
       byId("statsGrid").innerHTML = Object.keys(MODE_META).map((mode) => {
         const summary = summarizeMode(mode);
-        return '<div class="stat-card"><h3>' + MODE_META[mode].label + '</h3>' +
+        return '<div class="stat-card' + (summary.attempts ? " featured" : "") + '"><h3>' + MODE_META[mode].label + '</h3>' +
+          '<div class="stat-kpis"><div class="stat-kpi"><span>回答済み</span><strong>' + summary.answered + '</strong></div><div class="stat-kpi"><span>回答回数</span><strong>' + summary.attempts + '</strong></div></div>' +
           renderMeter("回答率", summary.answerRate, summary.answered + " / " + summary.total) +
           renderMeter("正答率", summary.accuracy, Math.round(summary.accuracy * 100) + "%", "good") +
-          '<div class="muted">回答回数: ' + summary.attempts + '</div></div>';
+          '</div>';
       }).join("");
     }
 
     function renderMeter(label, value, text, cls = "") {
       return '<div class="meter"><div class="meter-label"><span>' + label + '</span><span>' + text + '</span></div><div class="bar ' + cls + '"><span style="width:' + Math.round(value * 100) + '%"></span></div></div>';
+    }
+
+    function renderResultDock() {
+      byId("resultDock").innerHTML = Object.keys(MODE_META).map((mode) => {
+        const summary = summarizeMode(mode);
+        return '<button class="dock-card" data-dock-mode="' + mode + '"><strong>' + MODE_META[mode].label + '</strong><div class="dock-bars">' +
+          renderDockRow("回答", summary.answerRate) +
+          renderDockRow("正答", summary.accuracy, "accuracy") +
+          '</div></button>';
+      }).join("");
+      document.querySelectorAll("[data-dock-mode]").forEach((button) => {
+        button.onclick = () => showScreen("results");
+      });
+    }
+
+    function renderDockRow(label, value, cls = "") {
+      const percent = Math.round(value * 100);
+      return '<div class="dock-row ' + cls + '"><span>' + label + '</span><div class="dock-bar"><span style="width:' + percent + '%"></span></div><span>' + percent + '%</span></div>';
     }
 
     function renderMistakes() {
@@ -951,6 +1134,12 @@
     document.querySelectorAll("[data-mode]").forEach((button) => {
       button.onclick = () => chooseSetup(button.dataset.mode);
     });
+    document.querySelectorAll("[data-count-shortcut]").forEach((button) => {
+      button.onclick = () => {
+        const max = Number(byId("countInput").max || 50);
+        byId("countInput").value = Math.min(Number(button.dataset.countShortcut), max);
+      };
+    });
     tabs.forEach((tab) => {
       tab.onclick = () => {
         currentMode = null;
@@ -969,8 +1158,10 @@
       results = { qa: {}, fill: {}, sort: {} };
       saveResults();
       renderResults();
+      renderResultDock();
       showToast("リセットしました");
     };
+    renderResultDock();
   </script>
 </body>
 </html>
